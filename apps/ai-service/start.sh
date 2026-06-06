@@ -35,4 +35,4 @@ fi
 mkdir -p /app/temp
 
 echo "🚀 [Startup] Starting AI Generation Service..."
-exec node dist/src/index.js
+exec node dist/apps/ai-service/src/index.js
