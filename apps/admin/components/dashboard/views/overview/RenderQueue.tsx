@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { Loader2, CheckCircle2, XCircle, Clock, Inbox } from "lucide-react";
+import { CheckCircle2, Clock, Inbox, Loader2, XCircle } from "lucide-react";
 
 export default function RenderQueue({ queue }: { queue: any[] }) {
           return (

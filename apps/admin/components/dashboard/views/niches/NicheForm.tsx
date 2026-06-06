@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { Info, BrainCircuit, Settings, Plus, CheckCircle2, PlusCircle, MinusCircle, Loader2, X } from "lucide-react";
+import { createNicheAction, updateNicheAction } from "@/app/actions/niche";
+import { CustomAudioPlayer, MobileFramePreview } from "@/components/dashboard/ui/MediaPreviews"; // ⚡ IMPORT MEDIA PREVIEWS
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createNicheAction, updateNicheAction } from "@/app/actions/niche";
 import { nicheSchema } from "@/lib/validations/niche";
+import { CheckCircle2, Loader2, MinusCircle, Plus, PlusCircle } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
-import { MobileFramePreview, CustomAudioPlayer } from "@/components/dashboard/ui/MediaPreviews"; // ⚡ IMPORT MEDIA PREVIEWS
 
 interface NicheFormProps {
           initialData?: any;

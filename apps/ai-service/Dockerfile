@@ -16,7 +16,6 @@ RUN npm install
 
 COPY . .
 
-# Generate Prisma client, compile database package, then compile ai-service
 RUN npx prisma@5.22.0 generate --schema=packages/database/prisma/schema.prisma && \
     npx tsc -p packages/database/tsconfig.json && \
     npx tsc -p apps/ai-service/tsconfig.json
@@ -35,9 +34,9 @@ COPY --from=builder /app/apps/ai-service/dist ./dist
 # Copy runtime npm dependencies
 COPY --from=builder /app/node_modules ./node_modules
 
-# Copy compiled database package (dist only — no .ts files)
-COPY --from=builder /app/packages/database/dist ./packages/database/dist
-COPY --from=builder /app/packages/database/package.json ./packages/database/package.json
+# Copy compiled database into node_modules so @aireelgen/database resolves
+COPY --from=builder /app/packages/database/dist ./node_modules/@aireelgen/database/dist
+COPY --from=builder /app/packages/database/package.json ./node_modules/@aireelgen/database/package.json
 
 # Copy static assets
 COPY apps/ai-service/assets ./assets

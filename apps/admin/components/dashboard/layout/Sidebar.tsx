@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { logoutAction } from "@/app/actions/auth/auth";
 
+import type { ViewKey } from "@/context/dashboard/DashboardProvider";
+
 export default function Sidebar() {
           const { activeView, setActiveView, isSidebarCollapsed, toggleSidebar } = useDashboard();
           const router = useRouter();
@@ -37,7 +39,7 @@ export default function Sidebar() {
           ];
 
           const handleNavClick = (id: string) => {
-                    setActiveView(id);
+                    setActiveView(id as ViewKey);
                     // Auto-close sidebar on mobile after clicking a link
                     if (window.innerWidth < 768) {
                               toggleSidebar();

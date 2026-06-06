@@ -34,23 +34,22 @@ export async function loginCredentialsAction(formData: any): Promise<AuthRespons
                     // First time login - Setup 2FA
                     if (!admin.isTwoFactorEnabled || !admin.twoFactorSecret) {
 
-                              // ⚡ SPEAKEASY: Generate Secret & Microsoft Auth URI
-                              const secretData = speakeasy.generateSecret({
-                                        name: "Reelmind Admin",
-                                        user: admin.email
-                              });
+                      const secretData = speakeasy.generateSecret({
+                        name: `ReelMind Admin:${admin.email}`,
+                        issuer: "ReelMind"
+                      });
 
-                              const secret = secretData.base32;
-                              const otpAuthUri = secretData.otpauth_url || `otpauth://totp/ReelMind%20Admin:${encodeURIComponent(admin.email)}?secret=${secret}&issuer=ReelMind%20Admin`;
+                      const secret = secretData.base32;
+                      const otpAuthUri = secretData.otpauth_url || `otpauth://totp/ReelMind%20Admin:${encodeURIComponent(admin.email)}?secret=${secret}&issuer=ReelMind%20Admin`;
 
-                              const qrCodeUrl = await qrcode.toDataURL(otpAuthUri);
+                      const qrCodeUrl = await qrcode.toDataURL(otpAuthUri);
 
-                              await prisma.admin.update({
-                                        where: { id: admin.id },
-                                        data: { twoFactorSecret: secret }
-                              });
+                      await prisma.admin.update({
+                        where: { id: admin.id },
+                        data: { twoFactorSecret: secret }
+                      });
 
-                              return { success: true, status: "REQUIRES_SETUP", qrCodeUrl, secret };
+                      return { success: true, status: "REQUIRES_SETUP", qrCodeUrl, secret };
                     }
 
                     return { success: true, status: "REQUIRES_2FA" };

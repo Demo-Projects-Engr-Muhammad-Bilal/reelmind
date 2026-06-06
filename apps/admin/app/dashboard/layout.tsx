@@ -1,12 +1,3 @@
-/**
- * @file app/dashboard/layout.tsx
- * @description Dashboard shell layout — pure Server Component.
- *
- * Both DashboardProvider (UI state) and DashboardDataProvider (data cache)
- * are client components that wrap the children. This layout file itself
- * has NO "use client" directive — it remains a Server Component, keeping
- * the layout outside the client bundle.
- */
 import { DashboardProvider } from "@/context/dashboard/DashboardProvider";
 import { DashboardDataProvider } from "@/context/dashboard/DashboardDataProvider";
 import Sidebar from "@/components/dashboard/layout/Sidebar";

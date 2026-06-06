@@ -1,7 +1,6 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, KeyRound, Loader2, ShieldCheck } from "lucide-react";
+import { ArrowLeft, KeyRound, Loader2 } from "lucide-react";
 
 export default function Verify2FAForm({ formData, setFormData, onSubmit, isLoading, onBack }: any) {
           return (

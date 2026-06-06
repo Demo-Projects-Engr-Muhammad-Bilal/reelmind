@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { CreditCard, TrendingUp, Clapperboard, Activity } from "lucide-react";
+import { Activity, Clapperboard, CreditCard, TrendingUp } from "lucide-react";
 
 export default function StatCards({ kpis }: { kpis: any }) {
           const stats = [

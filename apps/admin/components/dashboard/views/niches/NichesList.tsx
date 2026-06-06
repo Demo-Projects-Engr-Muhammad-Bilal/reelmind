@@ -1,11 +1,5 @@
 "use client";
 
-/**
- * @file components/dashboard/views/niches/NichesList.tsx
- * @description Niches view. Reads from DashboardDataContext cache via useDashboardData.
- * After create/update, invalidate() purges the cache so data re-fetches fresh on next visit.
- */
-
 import { useState } from "react";
 import { Edit3, Plus, Search, Layers, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";

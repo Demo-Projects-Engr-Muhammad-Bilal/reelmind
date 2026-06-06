@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { PieChart } from "lucide-react";
 
 export default function TopNiches({ niches }: { niches: any[] }) {

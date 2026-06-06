@@ -1,14 +1,9 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./",
-    "module": "node16",
-    "moduleResolution": "node16",
-    "target": "ES2022",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "declaration": true
-  },
-  "include": ["*.ts", "prisma/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "name": "@aireelgen/database",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  }
 }

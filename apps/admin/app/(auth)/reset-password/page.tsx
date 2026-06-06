@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
 import { resetPasswordAction } from "@/app/actions/auth/auth";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { Loader2, Lock, Eye, EyeOff, ArrowLeft, CheckCircle2, UserCog, ArrowRight, ShieldCheck, ShieldAlert } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, EyeOff, Loader2, Lock, ShieldAlert, ShieldCheck, UserCog } from "lucide-react";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { Suspense, useState } from "react";
+import { toast } from "sonner";
 
 // Form component extracted to wrap in Suspense safely
 function ResetPasswordForm() {
