@@ -27,7 +27,7 @@ services:
     name: ai-service
     runtime: docker
     # Dockerfile is at the service folder level; build context is monorepo root
-    dockerfilePath: ./apps/ai-generation-service/Dockerfile
+    dockerfilePath: ./apps/ai-service/Dockerfile
     dockerContext: .
     # Health check — Render uses this to know the service is ready
     # We added /health endpoint in index.ts for this exact purpose
