@@ -41,7 +41,7 @@ RUN npm install
 COPY . .
 
 # Compile TypeScript using this service's tsconfig
-RUN npx prisma generate --schema=packages/database/prisma/schema.prisma && npx tsc -p apps/ai-service/tsconfig.json
+RUN npx prisma@5.22.0 generate --schema=packages/database/prisma/schema.prisma && npx tsc -p apps/ai-service/tsconfig.json
 
 
 # ---- Stage 2: Production Runner ----
