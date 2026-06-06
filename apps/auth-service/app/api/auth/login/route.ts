@@ -46,6 +46,7 @@ export async function POST(req: Request) {
     }, "Login successful");
 
   } catch (error) {
+    console.error("[LOGIN ERROR]", error);
     return ApiResponse.error("Server error", 500);
   }
 }
