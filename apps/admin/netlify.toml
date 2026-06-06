@@ -5,9 +5,9 @@
 
 [build.environment]
   NEXT_DISABLE_TYPECHECK = "1"
-  DATABASE_URL = "mongodb+srv://Qarnain:tUYN1pd2gSZjx1UR@cluster0.un50g57.mongodb.net/aireelgen?appName=Cluster0"
+  DATABASE_URL = ""
   NEXT_PUBLIC_APP_URL = "https://reelmind-adminpanel.netlify.app"
-  RESEND_API_KEY = "e_hHFgSQ4X_KnaGV3oHjNcuhPVcyeuD8K3z"
+  RESEND_API_KEY = ""
 
 [[redirects]]
   from = "/*"
