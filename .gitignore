@@ -65,3 +65,4 @@ credentials/
 !tsconfig.json
 !tsconfig.*.json
 !turbo.json
+*.tsbuildinfo

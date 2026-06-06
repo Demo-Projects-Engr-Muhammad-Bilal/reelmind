@@ -4,6 +4,22 @@ import prisma from "@/lib/prisma/prisma";
 import { formatTimeAgo } from "@/lib/utils/time";
 import { ActionResponse, OverviewData } from "@/lib/types";
 
+// Lightweight type for logs
+type UsageLogForOverview = {
+  id: string;
+  cost: number;
+  provider: string;
+  createdAt: Date;
+  userId: string;
+};
+
+// Lightweight type for users
+type UserForLog = {
+  id: string;
+  name: string | null;
+  email: string;
+};
+
 export async function getOverviewAnalyticsAction(): Promise<ActionResponse<OverviewData>> {
   try {
     const now = new Date();
@@ -31,20 +47,20 @@ export async function getOverviewAnalyticsAction(): Promise<ActionResponse<Overv
     });
 
     // ── Recent Activity ───────────────────────────────────────────────────────
-    const recentActivityLogs = await prisma.usageLog.findMany({
+    const recentActivityLogs: UsageLogForOverview[] = await prisma.usageLog.findMany({
       take: 5,
       orderBy: { createdAt: "desc" },
       select: { id: true, cost: true, provider: true, createdAt: true, userId: true },
     });
 
-    const userIdsForLogs = recentActivityLogs.map((log: any) => log.userId);
-    const usersForLogs = await prisma.user.findMany({
+    const userIdsForLogs = recentActivityLogs.map((log) => log.userId);
+    const usersForLogs: UserForLog[] = await prisma.user.findMany({
       where: { id: { in: userIdsForLogs } },
       select: { id: true, name: true, email: true },
     });
 
-    const recentPurchases = recentActivityLogs.map((log: any) => {
-            const user = usersForLogs.find((u) => u.id === log.userId);
+    const recentPurchases = recentActivityLogs.map((log) => {
+      const user = usersForLogs.find((u: UserForLog) => u.id === log.userId);
       return {
         id: log.id,
         name: user?.name || "System User",
