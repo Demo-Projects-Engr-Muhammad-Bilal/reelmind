@@ -1,5 +1,5 @@
 [build]
-  command = "cd apps/auth-service && npm install && next build"
+  command = "cd apps/auth-service && npm install && npx prisma generate && next build"
   publish = "apps/auth-service/.next"
 
 [build.environment]
