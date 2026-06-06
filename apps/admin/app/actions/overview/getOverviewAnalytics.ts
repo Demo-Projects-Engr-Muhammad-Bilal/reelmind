@@ -43,8 +43,8 @@ export async function getOverviewAnalyticsAction(): Promise<ActionResponse<Overv
       select: { id: true, name: true, email: true },
     });
 
-    const recentPurchases = recentActivityLogs.map((log) => {
-      const user = usersForLogs.find((u) => u.id === log.userId);
+    const recentPurchases = recentActivityLogs.map((log: any) => {
+            const user = usersForLogs.find((u) => u.id === log.userId);
       return {
         id: log.id,
         name: user?.name || "System User",
