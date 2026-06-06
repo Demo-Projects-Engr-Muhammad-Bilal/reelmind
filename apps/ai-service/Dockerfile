@@ -16,7 +16,10 @@ RUN npm install
 
 COPY . .
 
-RUN npx prisma@5.22.0 generate --schema=packages/database/prisma/schema.prisma && npx tsc -p apps/ai-service/tsconfig.json
+# Generate Prisma client, compile database package, then compile ai-service
+RUN npx prisma@5.22.0 generate --schema=packages/database/prisma/schema.prisma && \
+    npx tsc -p packages/database/tsconfig.json && \
+    npx tsc -p apps/ai-service/tsconfig.json
 
 
 # ---- Stage 2: Production Runner ----
@@ -26,14 +29,15 @@ RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 
-# Copy compiled JS output - rootDir is ../.. so dist is inside apps/ai-service/dist
+# Copy compiled ai-service JS output
 COPY --from=builder /app/apps/ai-service/dist ./dist
 
 # Copy runtime npm dependencies
 COPY --from=builder /app/node_modules ./node_modules
 
-# Copy packages/database so @aireelgen/database resolves at runtime
-COPY --from=builder /app/packages ./packages
+# Copy compiled database package (dist only — no .ts files)
+COPY --from=builder /app/packages/database/dist ./packages/database/dist
+COPY --from=builder /app/packages/database/package.json ./packages/database/package.json
 
 # Copy static assets
 COPY apps/ai-service/assets ./assets
