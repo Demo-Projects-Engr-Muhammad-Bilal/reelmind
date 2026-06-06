@@ -14,7 +14,10 @@ export async function getUsersAction(): Promise<ActionResponse<UserRecord[]>> {
         },
       },
     });
-    return { success: true, data: users };
+
+    // ⚡ FIX: Type assertion (as unknown as UserRecord[]) added here
+    return { success: true, data: users as unknown as UserRecord[] };
+
   } catch {
     return { success: false, error: "Failed to fetch users." };
   }

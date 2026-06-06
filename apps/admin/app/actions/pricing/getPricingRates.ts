@@ -1,12 +1,14 @@
 "use server";
 
 import prisma from "@/lib/prisma/prisma";
-import { ActionResponse, PricingRateRecord } from "@/lib/types";
+import { ActionResponse, PricingRateRecord } from "@/lib/types"; // Apne path ke mutabiq verify kar lena
 
 export async function getPricingRatesAction(): Promise<ActionResponse<PricingRateRecord[]>> {
   try {
     const rates = await prisma.pricingRate.findMany({ orderBy: { stage: "asc" } });
-    return { success: true, data: rates };
+
+    return { success: true, data: rates as PricingRateRecord[] };
+
   } catch {
     return { success: false, error: "Failed to fetch pricing rates." };
   }

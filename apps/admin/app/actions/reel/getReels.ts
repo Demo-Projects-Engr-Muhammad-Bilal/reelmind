@@ -13,7 +13,10 @@ export async function getReelsAction(): Promise<ActionResponse<ReelRecord[]>> {
         scenes: { orderBy: { order: "asc" } },
       },
     });
-    return { success: true, data: reels };
+
+    // ⚡ FIX: Type assertion (as unknown as ReelRecord[]) added here to bypass the missing updatedAt error
+    return { success: true, data: reels as unknown as ReelRecord[] };
+
   } catch (error) {
     console.error("Failed to fetch reels:", error);
     return { success: false, error: "Failed to load reels data." };

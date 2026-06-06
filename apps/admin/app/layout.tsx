@@ -11,6 +11,11 @@ const poppins = Poppins({
   display: "swap",
 });
 
+export const metadata = {
+  title: "Reelmind | Management Hub",
+  description: "Secure Admin Login Portal for ReelMind",
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>

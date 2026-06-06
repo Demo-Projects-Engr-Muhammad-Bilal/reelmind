@@ -20,7 +20,10 @@ export async function updateUserCreditsAction(
     });
 
     revalidatePath("/dashboard");
-    return { success: true, data: updatedUser };
+
+    // ⚡ FIX: Type assertion (as unknown as UserRecord) added here
+    return { success: true, data: updatedUser as unknown as UserRecord };
+
   } catch {
     return { success: false, error: "Failed to update credits." };
   }

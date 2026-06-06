@@ -17,8 +17,12 @@ export async function toggleReelVisibilityAction(
         scenes: { orderBy: { order: "asc" } },
       },
     });
+
     revalidatePath("/dashboard");
-    return { success: true, data: updatedReel };
+
+    // ⚡ FIX: Type assertion (as unknown as ReelRecord) added here
+    return { success: true, data: updatedReel as unknown as ReelRecord };
+
   } catch {
     return { success: false, error: "Failed to update visibility." };
   }

@@ -19,8 +19,12 @@ export async function updatePricingAction(
       where: { id },
       data: validatedData.data,
     });
+
     revalidatePath("/dashboard");
-    return { success: true, data: updatedRate };
+
+    // ⚡ FIX: Type assertion (as PricingRateRecord) added here
+    return { success: true, data: updatedRate as PricingRateRecord };
+
   } catch {
     return { success: false, error: "Failed to update pricing rate." };
   }
