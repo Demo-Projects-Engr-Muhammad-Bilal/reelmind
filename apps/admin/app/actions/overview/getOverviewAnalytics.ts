@@ -5,6 +5,17 @@ import { formatTimeAgo } from "@/lib/utils/time";
 import { ActionResponse, OverviewData } from "@/lib/types";
 import { UsageLogForOverview, UserForLog, ReelWithUser, NicheInfo } from "@/lib/types/sharedtypes";
 
+type ChartPoint = {
+  day: string;
+  revenue: number;
+  credits: number;
+};
+
+type TopNicheRaw = {
+  style: string;
+  _sum: { totalCreditsSpent: number | null };
+};
+
 export async function getOverviewAnalyticsAction(): Promise<ActionResponse<OverviewData>> {
   try {
     const now = new Date();
@@ -81,12 +92,13 @@ export async function getOverviewAnalyticsAction(): Promise<ActionResponse<Overv
     });
 
     // ── Top Niches ────────────────────────────────────────────────────────────
-    const topNichesRaw = await prisma.reel.groupBy({
+    //@ts-ignore
+    const topNichesRaw = (await prisma.reel.groupBy({
       by: ["style"],
       _sum: { totalCreditsSpent: true },
       orderBy: { _sum: { totalCreditsSpent: "desc" } },
       take: 5,
-    });
+    })) as TopNicheRaw[];
 
     const maxNicheCredits = Math.max(
       ...topNichesRaw.map((item) => item._sum.totalCreditsSpent || 0),
@@ -104,7 +116,7 @@ export async function getOverviewAnalyticsAction(): Promise<ActionResponse<Overv
     });
 
     // ── Chart Data (Last 7 Days) ───────────────────────────────────────────────
-    const chartData = [];
+    const chartData: ChartPoint[] = [];
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);

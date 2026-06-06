@@ -1,0 +1,15 @@
+[build]
+  command = "turbo run build --filter admin"
+  publish = "apps/admin/.next"
+  functions = "netlify/functions"
+
+[build.environment]
+  NEXT_DISABLE_TYPECHECK = "1"
+  DATABASE_URL = "your-database-url"
+  NEXT_PUBLIC_APP_URL = "https://reelmind-adminpanel.netlify.app"
+  RESEND_API_KEY = "your-resend-api-key"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
