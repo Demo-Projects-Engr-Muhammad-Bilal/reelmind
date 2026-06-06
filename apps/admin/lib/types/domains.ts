@@ -14,14 +14,15 @@ export interface NicheRecord {
   systemPrompt: string;
   hooksInstruction: string;
   expansionInstruction: string;
-  imageInstruction?: string | null;
-  audioInstruction?: string | null;
-  videoInstruction?: string | null;
+  imageInstruction: string | null;
+  audioInstruction: string | null;
+  videoInstruction: string | null;
   bgmUrls: string[];
-  bgmVolume: number;
-  fallbackUrl?: string | null;
+  bgmVolume: number | null;
+  fallbackUrl: string | null;
   createdAt: Date;
-  updatedAt: Date;
+  // ⚡ FIX: Isko hata do ya optional kar do
+   updatedAt?: Date; 
 }
 
 // ─────────────────────────────────────────────

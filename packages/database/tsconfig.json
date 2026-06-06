@@ -1,9 +1,15 @@
 {
-  "name": "@aireelgen/database",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "./dist/index.js",
-  "exports": {
-    ".": "./dist/index.js"
-  }
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
+    "module": "node16",
+    "moduleResolution": "node16",
+    "target": "ES2022",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "strict": false
+  },
+  "include": ["*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
