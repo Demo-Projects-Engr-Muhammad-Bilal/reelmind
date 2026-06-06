@@ -1,11 +1,12 @@
 "use server";
 
 import prisma from "@/lib/prisma/prisma";
-import { ActionResponse, ReelRecord } from "@/lib/types";
+import { ActionResponse } from "@/lib/types";
+import { ReelRecord } from "@/lib/types/sharedtypes";
 
 export async function getReelsAction(): Promise<ActionResponse<ReelRecord[]>> {
   try {
-    const reels = await prisma.reel.findMany({
+    const reels: ReelRecord[] = await prisma.reel.findMany({
       orderBy: { createdAt: "desc" },
       take: 500,
       include: {
@@ -14,9 +15,7 @@ export async function getReelsAction(): Promise<ActionResponse<ReelRecord[]>> {
       },
     });
 
-    // ⚡ FIX: Type assertion (as unknown as ReelRecord[]) added here to bypass the missing updatedAt error
-    return { success: true, data: reels as unknown as ReelRecord[] };
-
+    return { success: true, data: reels };
   } catch (error) {
     console.error("Failed to fetch reels:", error);
     return { success: false, error: "Failed to load reels data." };

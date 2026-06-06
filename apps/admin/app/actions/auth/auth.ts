@@ -8,6 +8,7 @@ import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 import crypto from "crypto";
 import { Resend } from "resend";
+import { LoginPayload, Verify2FAPayload } from "@/lib/types/sharedtypes";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "fallback_super_secret_key_32_chars_long");
 const COOKIE_NAME = "admin_session";
@@ -21,7 +22,7 @@ export type AuthResponse = {
 };
 
 // ⚡ VERIFY CREDENTIALS & CHECK 2FA STATUS
-export async function loginCredentialsAction(formData: any): Promise<AuthResponse> {
+export async function loginCredentialsAction(formData: LoginPayload): Promise<AuthResponse> {
           try {
                     const { email, password } = formData;
 
@@ -62,7 +63,7 @@ export async function loginCredentialsAction(formData: any): Promise<AuthRespons
 
 // ⚡ VERIFY 2FA CODE & CREATE ENCRYPTED SESSION
 
-export async function verify2FALoginAction(formData: any): Promise<AuthResponse> {
+export async function verify2FALoginAction(formData: Verify2FAPayload): Promise<AuthResponse> {
   try {
     const { email, code, isFirstTimeSetup } = formData;
 

@@ -3,22 +3,7 @@
 import prisma from "@/lib/prisma/prisma";
 import { formatTimeAgo } from "@/lib/utils/time";
 import { ActionResponse, OverviewData } from "@/lib/types";
-
-// Lightweight type for logs
-type UsageLogForOverview = {
-  id: string;
-  cost: number;
-  provider: string;
-  createdAt: Date;
-  userId: string;
-};
-
-// Lightweight type for users
-type UserForLog = {
-  id: string;
-  name: string | null;
-  email: string;
-};
+import { UsageLogForOverview, UserForLog, ReelWithUser, NicheInfo } from "@/lib/types/sharedtypes";
 
 export async function getOverviewAnalyticsAction(): Promise<ActionResponse<OverviewData>> {
   try {
@@ -72,19 +57,19 @@ export async function getOverviewAnalyticsAction(): Promise<ActionResponse<Overv
     });
 
     // ── Active Queue ──────────────────────────────────────────────────────────
-    const activeQueueRaw = await prisma.reel.findMany({
+    const activeQueueRaw: ReelWithUser[] = await prisma.reel.findMany({
       take: 5,
       orderBy: { createdAt: "desc" },
       include: { user: { select: { name: true } } },
     });
 
-    const uniqueNicheKeys = [...new Set(activeQueueRaw.map((q) => q.style))];
-    const nichesInfo = await prisma.niche.findMany({
+    const uniqueNicheKeys = [...new Set(activeQueueRaw.map((q: ReelWithUser) => q.style))];
+    const nichesInfo: NicheInfo[] = await prisma.niche.findMany({
       where: { key: { in: uniqueNicheKeys } },
       select: { key: true, name: true },
     });
 
-    const activeQueue = activeQueueRaw.map((q) => {
+    const activeQueue = activeQueueRaw.map((q: ReelWithUser) => {
       const nicheName = nichesInfo.find((n) => n.key === q.style)?.name || q.style;
       return {
         id: `RND-${q.id.toString().slice(-4)}`,

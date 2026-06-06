@@ -1,7 +1,8 @@
 "use server";
 
 import prisma from "@/lib/prisma/prisma";
-import { ActionResponse, UsageLogRecord } from "@/lib/types";
+import { ActionResponse } from "@/lib/types";
+import { UsageLogRecord } from "@/lib/types/sharedtypes"
 
 export async function getUsageLogsAction(): Promise<ActionResponse<UsageLogRecord[]>> {
   try {

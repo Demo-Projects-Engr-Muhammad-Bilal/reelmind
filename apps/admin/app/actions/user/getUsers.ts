@@ -1,23 +1,20 @@
 "use server";
 
 import prisma from "@/lib/prisma/prisma";
-import { ActionResponse, UserRecord } from "@/lib/types";
+import { ActionResponse } from "@/lib/types";
+import { UserRecord } from "@/lib/types/sharedtypes";
 
 export async function getUsersAction(): Promise<ActionResponse<UserRecord[]>> {
   try {
-    const users = await prisma.user.findMany({
+    const users: UserRecord[] = await prisma.user.findMany({
       orderBy: { createdAt: "desc" },
       include: {
         telegramCreds: true,
-        _count: {
-          select: { reels: true },
-        },
+        _count: { select: { reels: true } },
       },
     });
 
-    // ⚡ FIX: Type assertion (as unknown as UserRecord[]) added here
-    return { success: true, data: users as unknown as UserRecord[] };
-
+    return { success: true, data: users };
   } catch {
     return { success: false, error: "Failed to fetch users." };
   }
