@@ -37,7 +37,7 @@ export async function getOverviewAnalyticsAction(): Promise<ActionResponse<Overv
       select: { id: true, cost: true, provider: true, createdAt: true, userId: true },
     });
 
-    const userIdsForLogs = recentActivityLogs.map((log) => log.userId);
+    const userIdsForLogs = recentActivityLogs.map((log: any) => log.userId);
     const usersForLogs = await prisma.user.findMany({
       where: { id: { in: userIdsForLogs } },
       select: { id: true, name: true, email: true },
