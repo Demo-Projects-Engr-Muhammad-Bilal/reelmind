@@ -1,0 +1,92 @@
+# =============================================================================
+# render.yaml — Infrastructure as Code for Render.com
+# =============================================================================
+#
+# WHY THIS FILE EXISTS:
+# This file lets you deploy the entire service to Render with one click by
+# connecting your GitHub repo and pointing Render at this file.
+# It declares the service type, build method, and all environment variables
+# as placeholders so you can fill them in the Render dashboard.
+#
+# HOW TO USE:
+# 1. Push this repo to GitHub.
+# 2. Go to render.com → New → Blueprint.
+# 3. Connect your repo — Render will find this file automatically.
+# 4. Fill in all the environment variable values in the dashboard.
+# 5. Deploy.
+#
+# NOTE ON FREE TIER:
+# Render's free web services spin down after 15 minutes of inactivity.
+# A BullMQ worker cannot afford to spin down mid-job.
+# Upgrade to Starter ($7/mo) for always-on service, OR add a keep-alive
+# cron job that pings /health every 10 minutes.
+# =============================================================================
+
+services:
+  - type: web
+    name: ai-service
+    runtime: docker
+    # Dockerfile is at the service folder level; build context is monorepo root
+    dockerfilePath: ./apps/ai-generation-service/Dockerfile
+    dockerContext: .
+    # Health check — Render uses this to know the service is ready
+    # We added /health endpoint in index.ts for this exact purpose
+    healthCheckPath: /health
+    # Render sets PORT automatically; our app reads process.env.PORT
+    envVars:
+      # ── System ──────────────────────────────────────────────────────────
+      - key: NODE_ENV
+        value: production
+
+      # ── Database ─────────────────────────────────────────────────────────
+      - key: DATABASE_URL
+        sync: false   # Fill this in the Render dashboard (never commit real values)
+
+      # ── Redis (Upstash or Redis Cloud — use rediss:// for TLS) ──────────
+      # Example: rediss://default:yourpassword@yourhost.upstash.io:6379
+      - key: REDIS_URL
+        sync: false
+
+      # ── Google Cloud / Vertex AI ─────────────────────────────────────────
+      # Base64-encode your GCP JSON key: base64 -i your-key.json
+      # Paste the output here. start.sh decodes it at container startup.
+      - key: GOOGLE_CREDENTIALS_JSON_B64
+        sync: false
+      - key: GCLOUD_PROJECT_ID
+        sync: false
+
+      # ── AI API Keys ───────────────────────────────────────────────────────
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ELEVENLABS_API_KEY
+        sync: false
+      - key: VOICE_ID
+        sync: false
+
+      # ── Cloudinary ────────────────────────────────────────────────────────
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+      # ── Stripe Payments ───────────────────────────────────────────────────
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+
+      # ── App Config ────────────────────────────────────────────────────────
+      # Your production frontend URL (e.g. https://yourapp.vercel.app)
+      # This controls CORS for both HTTP requests and WebSocket connections.
+      - key: FRONTEND_URL
+        sync: false
+      - key: MINIMUM_CREDIT_REQUIRED
+        value: "400"
+      - key: IMAGE_GEN_DELAY_MS
+        value: "40000"
+      - key: SCENE_DELAY_MS
+        value: "0"

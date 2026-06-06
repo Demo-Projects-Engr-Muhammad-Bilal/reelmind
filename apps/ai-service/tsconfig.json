@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "node16",
+    "moduleResolution": "node16",
+    "target": "ES2022",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@aireelgen/database": ["../../packages/database/index.ts"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "../../packages/database/index.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}
