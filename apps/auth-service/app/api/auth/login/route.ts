@@ -33,8 +33,8 @@ export async function POST(req: Request) {
 
     (await cookies()).set("auth_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",  // lax → none
       maxAge: 60 * 60 * 24,
       path: "/",
     });
@@ -42,7 +42,8 @@ export async function POST(req: Request) {
     sendLoginAlertEmail(user.email ?? "", user.name ?? "").catch(() => { });
 
     return ApiResponse.success({
-      user: { id: user.id, name: user.name, credits: user.credits }
+      user: { id: user.id, name: user.name, credits: user.credits },
+      token: token  // ← ye add karo
     }, "Login successful");
 
   } catch (error) {

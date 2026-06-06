@@ -7,14 +7,13 @@ import { loginSchema } from "@/validations/auth-validations";
 import { authService } from "@/services/auth/auth-services";
 import { useAuth } from "@/context/auth/AuthContext";
 import { toast } from "sonner";
-import { useRouter, useSearchParams } from "next/navigation"; // ⚡ 1. Router hooks import kiye
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const useLoginForm = (onForgotPassword: () => void) => {
           const [isSubmitting, setIsSubmitting] = useState(false);
           const [showResend, setShowResend] = useState(false);
           const { setUser } = useAuth();
 
-          // ⚡ 2. Router aur Search Params initialize kiye
           const router = useRouter();
           const searchParams = useSearchParams();
 
@@ -51,12 +50,17 @@ export const useLoginForm = (onForgotPassword: () => void) => {
                                         // ✅ STEP 1: Context update karo
                                         setUser(result.user);
 
-                                        // ✅ STEP 2: Extract callbackUrl from URL, fallback to "/dashboard"
+                                        // ✅ STEP 2: Client-side cookie set karo (cross-domain fix)
+                                        // httpOnly cookie cross-domain kaam nahi karti — isliye client side bhi set karo
+                                        if (result.token) {
+                                                  authService.setToken(result.token);
+                                        }
+
+                                        // ✅ STEP 3: Extract callbackUrl from URL, fallback to "/dashboard"
                                         const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
-                                        // ✅ STEP 3: Redirect dynamically
+                                        // ✅ STEP 4: Redirect dynamically
                                         setTimeout(() => {
-                                                  // SPA experience maintain rakhne ke liye router.push behtar hai
                                                   router.push(callbackUrl);
                                         }, 1000);
 
