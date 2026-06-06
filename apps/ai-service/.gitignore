@@ -23,6 +23,7 @@ temp/
 !package-lock.json
 !tsconfig.json
 !tsconfig.*.json
+!turbo.json
 
 # Logs
 logs/
@@ -63,3 +64,4 @@ credentials/
 !package-lock.json
 !tsconfig.json
 !tsconfig.*.json
+!turbo.json
