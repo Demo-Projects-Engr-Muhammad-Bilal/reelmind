@@ -1,0 +1,6 @@
+[build]
+  command = "cd apps/auth-service && next build"
+  publish = "apps/auth-service/.next"
+
+[build.environment]
+  NODE_VERSION = "20"
