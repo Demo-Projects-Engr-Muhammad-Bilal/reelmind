@@ -26,8 +26,8 @@ RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 
-# Copy compiled JS output
-COPY --from=builder /app/dist ./dist
+# Copy compiled JS output - rootDir is ../.. so dist is inside apps/ai-service/dist
+COPY --from=builder /app/apps/ai-service/dist ./dist
 
 # Copy runtime npm dependencies
 COPY --from=builder /app/node_modules ./node_modules
