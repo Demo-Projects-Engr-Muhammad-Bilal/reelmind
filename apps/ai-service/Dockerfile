@@ -17,7 +17,7 @@
 # This Dockerfile must be built from the MONOREPO ROOT, not from this folder.
 # The tsconfig.json rootDir is set to ../../ (two levels up from this service).
 # Build command from monorepo root:
-#   docker build -f apps/ai-generation-service/Dockerfile -t ai-gen-service .
+#   docker build -f apps/ai-service/Dockerfile -t ai-gen-service .
 # =============================================================================
 
 # ---- Stage 1: Build ----
@@ -31,7 +31,7 @@ WORKDIR /app
 # Copy package files from monorepo root and this service
 # We copy the root package.json first to leverage Docker layer caching
 COPY package*.json ./
-COPY apps/ai-generation-service/package*.json ./apps/ai-generation-service/
+COPY apps/ai-service/package*.json ./apps/ai-service/
 
 # Install all dependencies (including devDependencies needed for tsc)
 RUN npm install
@@ -41,7 +41,7 @@ RUN npm install
 COPY . .
 
 # Compile TypeScript using this service's tsconfig
-RUN npx tsc -p apps/ai-generation-service/tsconfig.json
+RUN npx tsc -p apps/ai-service/tsconfig.json
 
 
 # ---- Stage 2: Production Runner ----
@@ -58,7 +58,7 @@ RUN apk add --no-cache ffmpeg
 WORKDIR /app
 
 # Copy compiled JS output from builder stage
-COPY --from=builder /app/apps/ai-generation-service/dist ./dist
+COPY --from=builder /app/apps/ai-service/dist ./dist
 
 # Copy runtime npm dependencies (production only)
 COPY --from=builder /app/node_modules ./node_modules
@@ -67,10 +67,10 @@ COPY --from=builder /app/node_modules ./node_modules
 # - assets/fonts/Anton-Regular.ttf  → subtitle rendering
 # - assets/bgm/dark-luxury.mp3      → BGM fallback
 # - assets/images/fallback.png      → image generation fallback
-COPY apps/ai-generation-service/assets ./assets
+COPY apps/ai-service/assets ./assets
 
 # Copy the startup script that bootstraps GCP credentials
-COPY apps/ai-generation-service/start.sh ./start.sh
+COPY apps/ai-service/start.sh ./start.sh
 RUN chmod +x ./start.sh
 
 # Create the temp directory — FFmpeg writes all intermediate files here.
