@@ -3,9 +3,9 @@
 # =============================================================================
 
 # ---- Stage 1: Build ----
-FROM node:20-alpine AS builder
+FROM node:20-slim AS builder
 
-RUN apk add --no-cache python3 make g++ openssl
+RUN apt-get update && apt-get install -y python3 make g++ openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -22,9 +22,9 @@ RUN npx prisma@5.22.0 generate --schema=packages/database/prisma/schema.prisma &
 
 
 # ---- Stage 2: Production Runner ----
-FROM node:20-alpine AS runner
+FROM node:20-slim AS runner
 
-RUN apk add --no-cache ffmpeg openssl1.1-compat
+RUN apt-get update && apt-get install -y ffmpeg openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -37,7 +37,7 @@ COPY apps/ai-service/start.sh ./start.sh
 RUN chmod +x ./start.sh
 RUN mkdir -p /app/temp
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
 RUN chown -R appuser:appgroup /app
 USER appuser
 
