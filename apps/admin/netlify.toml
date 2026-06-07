@@ -1,15 +1,27 @@
 [build]
   command = "turbo run build --filter admin"
   publish = "apps/admin/.next"
-  functions = "netlify/functions"
 
 [build.environment]
-  NEXT_DISABLE_TYPECHECK = "1"
-  DATABASE_URL = ""
-  NEXT_PUBLIC_APP_URL = "https://reelmind-adminpanel.netlify.app"
-  RESEND_API_KEY = ""
+  NODE_VERSION                = "20"
+  NEXT_TELEMETRY_DISABLED     = "1"
+  NEXT_DISABLE_TYPECHECK      = "1"
+  PRISMA_CLI_BINARY_TARGETS   = "native,rhel-openssl-3.0.x"
+  NEXT_PUBLIC_APP_URL         = "https://reelmind-adminpanel.netlify.app"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin  = "https://reelmind-adminpanel.netlify.app"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Next-Action, Next-Router-State-Tree, Next-Router-Prefetch, RSC"
