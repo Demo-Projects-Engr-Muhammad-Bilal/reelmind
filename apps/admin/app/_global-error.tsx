@@ -1,8 +1,9 @@
-export default function GlobalError() {
+export default function GlobalError({ error }: { error: Error }) {
+          console.error("Global error caught:", error);
           return (
                     <html>
                               <body>
-                                        <h2>Unexpected error occurred.</h2>
+                                        <h2>Something went wrong.</h2>
                               </body>
                     </html>
           );

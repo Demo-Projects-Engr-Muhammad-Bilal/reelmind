@@ -8,6 +8,5 @@ export default function NotFound() {
           );
 }
 
-// Prevent Next.js from trying to prerender this page
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
