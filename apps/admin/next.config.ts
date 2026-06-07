@@ -1,14 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // ⚡ FIX: Moved serverActions inside the 'experimental' object
   experimental: {
     serverActions: {
       allowedOrigins: [
         "localhost:3000",
-        "*.tunnels.ms", // For VS Code Port Forwarding
+        "reelmind-adminpanel.netlify.app",
+        "*.netlify.app",
+        "*.netlify.live",
+        "*.tunnels.ms",
         "*.ngrok.io",
-        "*.ngrok-free.app"
+        "*.ngrok-free.app",
       ],
     },
   },
