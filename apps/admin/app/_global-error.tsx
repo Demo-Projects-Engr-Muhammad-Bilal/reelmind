@@ -1,12 +1,12 @@
-export default function GlobalError({ error }: { error: Error }) {
-          console.error("Global error caught:", error);
+export default function GlobalError() {
           return (
                     <html>
                               <body>
-                                        <h2>Something went wrong.</h2>
+                                        <h2>Unexpected error occurred.</h2>
                               </body>
                     </html>
           );
 }
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
