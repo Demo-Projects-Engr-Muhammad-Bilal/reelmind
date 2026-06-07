@@ -1,5 +1,8 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
+
 import { useDashboard } from "@/context/dashboard/DashboardProvider";
 import Overview from "@/components/dashboard/views/overview/Overview";
 import NichesList from "@/components/dashboard/views/niches/NichesList";

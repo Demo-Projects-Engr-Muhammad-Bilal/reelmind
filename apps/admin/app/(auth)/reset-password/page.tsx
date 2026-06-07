@@ -1,5 +1,8 @@
 "use client";
 
+
+export const dynamic = "force-dynamic";
+
 import { resetPasswordAction } from "@/app/actions/auth/auth";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/button";
