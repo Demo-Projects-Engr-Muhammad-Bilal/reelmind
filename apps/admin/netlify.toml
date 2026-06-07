@@ -1,5 +1,7 @@
+
+
 [build]
-  command = "turbo run build --filter admin"
+  command = "cd packages/database && npx prisma generate && cd ../.. && turbo run build --filter admin"
   publish = "apps/admin/.next"
 
 [build.environment]
@@ -9,9 +11,13 @@
   PRISMA_CLI_BINARY_TARGETS   = "native,rhel-openssl-3.0.x"
   NEXT_PUBLIC_APP_URL         = "https://reelmind-adminpanel.netlify.app"
 
+# ✅ Next.js Server Actions ke liye ZAROORI plugin
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# =============================================================
+#  Security Headers
+# =============================================================
 [[headers]]
   for = "/*"
   [headers.values]
@@ -19,6 +25,9 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy        = "strict-origin-when-cross-origin"
 
+# =============================================================
+#  Server Actions ke liye CORS Headers
+# =============================================================
 [[headers]]
   for = "/*"
   [headers.values]
