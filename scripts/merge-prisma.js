@@ -11,8 +11,11 @@ function mergeSchema(targetPath, generatorBlock) {
 
           const baseContent = fs.readFileSync(basePath, "utf-8");
           const finalContent = `${generatorBlock}\n\n${baseContent}`;
-          fs.writeFileSync(targetPath, finalContent, "utf-8");
 
+          // Print schema content for debugging
+          console.log("🔍 Debug: Final schema content:\n", finalContent);
+
+          fs.writeFileSync(targetPath, finalContent, "utf-8");
           console.log("✅ Merged schema written to", targetPath);
 }
 
@@ -30,12 +33,18 @@ generator client {
 }
 `;
 
-mergeSchema(
-          path.resolve(__dirname, "../packages/database/prisma/schema.prisma"),
-          `generator client {
+// Generator block for root schema (always Linux safe)
+const generatorBlockRoot = `
+generator client {
   provider = "prisma-client-js"
   binaryTargets = ["debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]
-}`
+}
+`;
+
+// Merge schemas
+mergeSchema(
+          path.resolve(__dirname, "../packages/database/prisma/schema.prisma"),
+          generatorBlockRoot
 );
 
 mergeSchema(
