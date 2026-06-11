@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma/prisma";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import speakeasy from "speakeasy"; // ⚡ NEW: 100% Next.js/Turbopack Friendly
 import qrcode from "qrcode";
 import { SignJWT } from "jose";
