@@ -7,7 +7,6 @@ import { Toaster } from "sonner"; // ⚡ FIX: Direct sonner package import kiya
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-export const runtime = "nodejs";
 
 
 const poppins = Poppins({
