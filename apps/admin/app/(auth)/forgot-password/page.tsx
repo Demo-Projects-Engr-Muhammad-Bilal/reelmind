@@ -1,8 +1,5 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 import React, { useState } from "react";
 import { sendPasswordResetLinkAction } from "@/app/actions/auth/auth";
 import { Button } from "@/components/ui/button";
