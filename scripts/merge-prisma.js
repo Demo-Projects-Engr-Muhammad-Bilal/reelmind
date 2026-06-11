@@ -10,19 +10,29 @@ function mergeSchema(targetPath, generatorBlock) {
           console.log(`✅ Merged schema written to ${targetPath}`);
 }
 
-// Root schema merge
+// Decide binaryTargets based on environment
+const isNetlify = !!process.env.NETLIFY;
+
+const generatorBlockAdmin = `
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ${isNetlify
+                    ? '["debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]'
+                    : '["native", "windows", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]'}
+}
+`;
+
+// Root schema merge (always Linux safe)
 mergeSchema(
           path.resolve(__dirname, "../packages/database/prisma/schema.prisma"),
           `generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]
 }`
 );
 
-// Admin schema merge
+// Admin schema merge (conditional)
 mergeSchema(
           path.resolve(__dirname, "../apps/admin/prisma/schema.prisma"),
-          `generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["debian-openssl-3.0.x"]
-}`
+          generatorBlockAdmin
 );
