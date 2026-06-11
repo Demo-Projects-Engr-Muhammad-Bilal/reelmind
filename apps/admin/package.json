@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate --schema=prisma/schema.prisma && next build",
+    "build": "node ../../scripts/merge-prisma.js && prisma generate --schema=prisma/schema.prisma && next build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -12,7 +12,7 @@
     "next": "16.2.7",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "@prisma/client": "^5.15.0",
+    "@prisma/client": "^5.22.0",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -31,7 +31,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "prisma": "^5.15.0",
+    "prisma": "^5.22.0",
     "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",

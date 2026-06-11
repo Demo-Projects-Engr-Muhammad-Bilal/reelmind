@@ -1,13 +1,11 @@
 [build]
-  command = "cd apps/admin && npx prisma generate --schema=prisma/schema.prisma && next build"
+  command = "npm run prisma:generate:admin && cd apps/admin && next build"
   publish = "apps/admin/.next"
   functions = "netlify/functions"
 
 [build.environment]
-  NODE_VERSION            = "20"
+  NODE_VERSION = "20"
   NEXT_TELEMETRY_DISABLED = "1"
-  NEXT_DISABLE_TYPECHECK  = "1"
-  NEXT_PUBLIC_APP_URL     = "https://reelmind-adminpanel.netlify.app"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+  NEXT_DISABLE_TYPECHECK = "1"
+  PRISMA_CLI_BINARY_TARGETS = "native,rhel-openssl-3.0.x"
+  NEXT_PUBLIC_APP_URL = "https://reelmind-adminpanel.netlify.app"
