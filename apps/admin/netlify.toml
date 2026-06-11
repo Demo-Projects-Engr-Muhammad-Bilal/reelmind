@@ -1,5 +1,6 @@
 [build]
-  command = "node ../../scripts/merge-prisma.js && prisma generate --schema=prisma/schema.prisma && next build"
+  # Run merge script, generate Prisma client, then build Next.js
+  command = "node ../scripts/merge-prisma.js && prisma generate --schema=prisma/schema.prisma && next build"
   publish = "apps/admin/.next"
   functions = "netlify/functions"
 
