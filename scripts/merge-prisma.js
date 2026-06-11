@@ -23,12 +23,11 @@ function mergeSchema(targetPath, generatorBlock) {
 const isNetlify = !!process.env.NETLIFY;
 console.log("🔍 Debug: isNetlify =", isNetlify);
 
-// Generator block for admin schema
 const generatorBlockAdmin = `
 generator client {
   provider = "prisma-client-js"
   binaryTargets = ${isNetlify
-                    ? '["debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]'
+                    ? '["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]'
                     : '["native", "windows", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]'}
 }
 `;
@@ -37,7 +36,7 @@ generator client {
 const generatorBlockRoot = `
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]
+  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]
 }
 `;
 
