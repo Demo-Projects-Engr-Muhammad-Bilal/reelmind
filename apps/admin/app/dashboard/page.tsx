@@ -3,7 +3,6 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-
 import { useDashboard } from "@/context/dashboard/DashboardProvider";
 import Overview from "@/components/dashboard/views/overview/Overview";
 import NichesList from "@/components/dashboard/views/niches/NichesList";
