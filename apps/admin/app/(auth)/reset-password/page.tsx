@@ -2,6 +2,7 @@
 
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 import { resetPasswordAction } from "@/app/actions/auth/auth";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
