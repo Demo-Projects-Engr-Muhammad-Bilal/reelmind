@@ -1,18 +1,26 @@
 const fs = require("fs");
 const path = require("path");
 
-function mergeSchema(targetPath, generatorBlock) {
-          const basePath = path.resolve(__dirname, "../packages/database/prisma/base.prisma");
-          const baseContent = fs.readFileSync(basePath, "utf-8");
+console.log("🔍 Debug: Starting merge-prisma.js");
+console.log("🔍 Debug: NETLIFY env =", process.env.NETLIFY);
 
+function mergeSchema(targetPath, generatorBlock) {
+          console.log("🔍 Debug: Writing schema to", targetPath);
+          const basePath = path.resolve(__dirname, "../packages/database/prisma/base.prisma");
+          console.log("🔍 Debug: Reading base schema from", basePath);
+
+          const baseContent = fs.readFileSync(basePath, "utf-8");
           const finalContent = `${generatorBlock}\n\n${baseContent}`;
           fs.writeFileSync(targetPath, finalContent, "utf-8");
-          console.log(`✅ Merged schema written to ${targetPath}`);
+
+          console.log("✅ Merged schema written to", targetPath);
 }
 
-// Decide binaryTargets based on environment
+// Detect Netlify environment
 const isNetlify = !!process.env.NETLIFY;
+console.log("🔍 Debug: isNetlify =", isNetlify);
 
+// Generator block for admin schema
 const generatorBlockAdmin = `
 generator client {
   provider = "prisma-client-js"
@@ -22,7 +30,6 @@ generator client {
 }
 `;
 
-// Root schema merge (always Linux safe)
 mergeSchema(
           path.resolve(__dirname, "../packages/database/prisma/schema.prisma"),
           `generator client {
@@ -31,8 +38,9 @@ mergeSchema(
 }`
 );
 
-// Admin schema merge (conditional)
 mergeSchema(
           path.resolve(__dirname, "../apps/admin/prisma/schema.prisma"),
           generatorBlockAdmin
 );
+
+console.log("🔍 Debug: merge-prisma.js finished successfully");
