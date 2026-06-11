@@ -1,6 +1,8 @@
 # Dependencies
 node_modules/
 
+.gitignore
+
 # Build output
 dist/
 .next/
@@ -66,3 +68,6 @@ credentials/
 !tsconfig.*.json
 !turbo.json
 *.tsbuildinfo
+
+!scripts/
+!scripts/*.js

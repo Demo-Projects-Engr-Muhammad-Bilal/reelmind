@@ -8,9 +8,9 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint"
+    "prisma:merge": "node scripts/merge-prisma.js",
+    "prisma:generate:root": "npm run prisma:merge && prisma generate --schema=packages/database/prisma/schema.prisma",
+    "prisma:generate:admin": "npm run prisma:merge && prisma generate --schema=apps/admin/prisma/schema.prisma"
   },
   "devDependencies": {
     "turbo": "^1.13.0"
