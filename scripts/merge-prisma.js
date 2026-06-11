@@ -12,7 +12,6 @@ function mergeSchema(targetPath, generatorBlock) {
           const baseContent = fs.readFileSync(basePath, "utf-8");
           const finalContent = `${generatorBlock}\n\n${baseContent}`;
 
-          // Print schema content for debugging
           console.log("🔍 Debug: Final schema content:\n", finalContent);
 
           fs.writeFileSync(targetPath, finalContent, "utf-8");
@@ -23,24 +22,32 @@ function mergeSchema(targetPath, generatorBlock) {
 const isNetlify = !!process.env.NETLIFY;
 console.log("🔍 Debug: isNetlify =", isNetlify);
 
-const generatorBlockAdmin = `
+let generatorBlockAdmin;
+
+if (isNetlify) {
+          generatorBlockAdmin = `
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ${isNetlify
-                    ? '["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]'
-                    : '["native", "windows", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]'}
+  binaryTargets = ["debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]
 }
 `;
+} else {
+          generatorBlockAdmin = `
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]
+}
+`;
+}
 
-// Generator block for root schema (always Linux safe)
+// Root schema (always Linux safe)
 const generatorBlockRoot = `
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]
+  binaryTargets = ["debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl"]
 }
 `;
 
-// Merge schemas
 mergeSchema(
           path.resolve(__dirname, "../packages/database/prisma/schema.prisma"),
           generatorBlockRoot
