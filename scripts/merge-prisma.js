@@ -7,18 +7,13 @@ console.log("🔍 Debug: NETLIFY env =", process.env.NETLIFY);
 function mergeSchema(targetPath, generatorBlock) {
           console.log("🔍 Debug: Writing schema to", targetPath);
           const basePath = path.resolve(__dirname, "../packages/database/prisma/base.prisma");
-          console.log("🔍 Debug: Reading base schema from", basePath);
-
           const baseContent = fs.readFileSync(basePath, "utf-8");
           const finalContent = `${generatorBlock}\n\n${baseContent}`;
-
           console.log("🔍 Debug: Final schema content:\n", finalContent);
-
           fs.writeFileSync(targetPath, finalContent, "utf-8");
           console.log("✅ Merged schema written to", targetPath);
 }
 
-// Detect Netlify environment
 const isNetlify = !!process.env.NETLIFY;
 console.log("🔍 Debug: isNetlify =", isNetlify);
 
@@ -40,7 +35,6 @@ generator client {
 `;
 }
 
-// Root schema (always Linux safe)
 const generatorBlockRoot = `
 generator client {
   provider = "prisma-client-js"
