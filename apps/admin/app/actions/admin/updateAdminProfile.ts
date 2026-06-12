@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma/prisma";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { ActionResponse } from "@/lib/types";
 
