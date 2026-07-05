@@ -83,7 +83,14 @@ export class ImageManager {
                     }
 
                     console.log(`📥 [ImageManager] Cache Miss. Fetching niche configurations for key: ${reel.style}`);
-                    const nicheConfig = await prisma.niche.findUnique({ where: { key: reel.style } });
+                    const nicheConfig = await prisma.niche.findFirst({
+                                    where: {
+                                      OR: [
+                                        { key: reel.style },
+                                        { name: reel.style }, // ✅ naam se bhi dhundho
+                                      ],
+                                    },
+                    });
 
                     // CHANGE: Uses BASE_TEMP constant (absolute) instead of path.resolve() (CWD-relative).
                     const localFallbackDir = path.join(BASE_TEMP, input.reelId);
